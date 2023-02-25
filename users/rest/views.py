@@ -6,15 +6,11 @@ from rest_framework.viewsets import ModelViewSet
 
 from core_delivery.users.exceptions import AlreadyDeliveryException
 from core_delivery.users.models import DefaultUser, DeliveryMan
-from core_delivery.users.permissions import (
-    OnlyAdminPermission,
-    OwnerDeliveryManPermission,
-    OwnerOrSuperUserPermission,
-)
-from core_delivery.users.rest.serializers import (
-    DefaultUserSerializer,
-    DeliveryManSerializer,
-)
+from core_delivery.users.permissions import (OnlyAdminPermission,
+                                             OwnerDeliveryManPermission,
+                                             OwnerOrSuperUserPermission)
+from core_delivery.users.rest.serializers import (DefaultUserSerializer,
+                                                  DeliveryManSerializer)
 
 
 class DefaultUserViewSet(ModelViewSet):
@@ -24,9 +20,7 @@ class DefaultUserViewSet(ModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
     def list(self, request, *args, **kwargs):
-        self.permission_classes = (
-            permissions.IsAuthenticated,
-        )
+        self.permission_classes = (permissions.IsAuthenticated,)
         return super().list(request, args, kwargs)
 
     def update(self, request, *args, **kwargs) -> DefaultUser:
@@ -43,7 +37,11 @@ class DefaultUserViewSet(ModelViewSet):
         )
         return super().destroy(request, args, kwargs)
 
-    @action(methods=["get"], detail=True, permission_classes=[permissions.IsAuthenticated, OnlyAdminPermission])
+    @action(
+        methods=["get"],
+        detail=True,
+        permission_classes=[permissions.IsAuthenticated, OnlyAdminPermission],
+    )
     def verify(self, request: Request, pk) -> Response:
         obj: DefaultUser = self.get_object()
         obj.make_verify()

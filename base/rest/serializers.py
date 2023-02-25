@@ -13,5 +13,5 @@ class OrderSerializer(serializers.ModelSerializer):
             "delivery_point",
             "fragile",
             "weight",
-            "dimension"
+            "dimension",
         )

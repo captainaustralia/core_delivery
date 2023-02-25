@@ -1,4 +1,4 @@
-from typing import Any, Final, Optional
+from typing import Any, Final, Optional, Self
 from uuid import uuid4
 
 from django.contrib.auth.base_user import BaseUserManager
@@ -31,11 +31,7 @@ class BaseModel(models.Model):
     """
 
     uuid = models.UUIDField(
-        default=uuid4,
-        editable=False,
-        unique=True,
-        db_index=True,
-        primary_key=True
+        default=uuid4, editable=False, unique=True, db_index=True, primary_key=True
     )
     date_modified = models.DateTimeField()
     date_created = models.DateTimeField(auto_now_add=True)
@@ -51,11 +47,11 @@ class BaseModel(models.Model):
         self.save(update_fields=["deleted"])
 
     def save(
-            self,
-            force_insert: bool = False,
-            force_update: bool = False,
-            using: Optional[bool] = None,
-            update_fields: Optional[list[str]] = None,
+        self,
+        force_insert: bool = False,
+        force_update: bool = False,
+        using: Optional[bool] = None,
+        update_fields: Optional[list[str]] = None,
     ) -> None:
         """
         Save overload , for change time modified
@@ -75,13 +71,13 @@ class CustomUserManager(BaseUserManager, OverloadBaseManager):
     use_in_migrations: Final = True
 
     def _create_user(
-            self,
-            email: str,
-            password: str,
-            is_staff: bool,
-            is_superuser: bool,
-            is_active: bool,
-            **extra: dict
+        self,
+        email: str,
+        password: str,
+        is_staff: bool,
+        is_superuser: bool,
+        is_active: bool,
+        **extra: dict
     ) -> "BaseUser":
         """
         Overload BaseUserManager ,for better control
@@ -107,13 +103,13 @@ class CustomUserManager(BaseUserManager, OverloadBaseManager):
         return user
 
     def create_user(
-            self,
-            email: str,
-            password: str,
-            is_staff: bool = False,
-            is_superuser: bool = False,
-            is_active: bool = False,
-            **extra: Any
+        self,
+        email: str,
+        password: str,
+        is_staff: bool = False,
+        is_superuser: bool = False,
+        is_active: bool = False,
+        **extra: Any
     ) -> "BaseUser":
         """
         Base method for creation User objects use implementation private method,
@@ -141,7 +137,7 @@ class BaseUser(AbstractBaseUser, BaseModel, PermissionsMixin):
     Base User model
     """
 
-    email = models.CharField(unique=True, max_length=40, db_index=True)
+    email = models.CharField(unique=True, max_length=30, db_index=True)
     date_register = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -152,7 +148,7 @@ class BaseUser(AbstractBaseUser, BaseModel, PermissionsMixin):
     REQUIRED_FIELDS: list[str] = []
     USERNAME_FIELD = "email"
 
-    def __str__(self) -> str:
+    def __str__(self: Self) -> str:
         return str(self.email)
 
     class Meta:

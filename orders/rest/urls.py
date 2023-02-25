@@ -6,6 +6,4 @@ router = SimpleRouter()
 router.register(basename="order", viewset=OrderViewSet, prefix="")
 
 
-urlpatterns = [
-
-] + router.urls
+urlpatterns = [] + router.urls
