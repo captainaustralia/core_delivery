@@ -64,11 +64,13 @@ class DeliveryManViewSet(ModelViewSet):
         serializer.save(user=user)
 
     @transaction.atomic()
-    @action(methods=["post"],
-            url_path="add_pass_data",
-            detail=True,
-            permission_classes=[permissions.IsAuthenticated],
-            serializer_class=PassportDataSerializer)
+    @action(
+        methods=["post"],
+        url_path="add_pass_data",
+        detail=True,
+        permission_classes=[permissions.IsAuthenticated],
+        serializer_class=PassportDataSerializer,
+    )
     def add_passport_data(self, request, **kwargs) -> Response:
         deliveryman = self.get_object()
 

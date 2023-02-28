@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core_delivery.orders.models import Order, Location
+from core_delivery.orders.models import Location, Order
 
 
 class LocationSerializer(serializers.ModelSerializer):

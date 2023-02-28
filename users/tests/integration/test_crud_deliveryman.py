@@ -14,12 +14,7 @@ class TestApi(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_create_deliveryman(self):
-
-        response = self.client.post(
-            path=self.url,
-            data={},
-            format="json"
-        )
+        response = self.client.post(path=self.url, data={}, format="json")
 
         delivery_man_obj = DeliveryMan.objects.last()
 
