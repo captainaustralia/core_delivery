@@ -25,6 +25,10 @@ class DefaultUser(BaseUser):
         self.verify = True
         self.save()
 
+    @property
+    def is_deliveryman(self):
+        return self.deliveryman
+
 
 class DeliveryMan(BaseModel):
     user = models.OneToOneField(
