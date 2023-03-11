@@ -1,3 +1,4 @@
+
 from django.db import transaction
 from rest_framework import permissions
 from rest_framework.decorators import action
@@ -5,14 +6,21 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from core_delivery.base.rest.serializers import PassportDataSerializer
+from core_delivery.base.rest.serializers import (
+    PassportDataSerializer,
+    TransportSerializer,
+)
 from core_delivery.users.exceptions import AlreadyDeliveryException
 from core_delivery.users.models import DefaultUser, DeliveryMan
-from core_delivery.users.permissions import (OnlyAdminPermission,
-                                             OwnerDeliveryManPermission,
-                                             OwnerOrSuperUserPermission)
-from core_delivery.users.rest.serializers import (DefaultUserSerializer,
-                                                  DeliveryManSerializer)
+from core_delivery.users.permissions import (
+    OnlyAdminPermission,
+    OwnerDeliveryManPermission,
+    OwnerOrSuperUserPermission,
+)
+from core_delivery.users.rest.serializers import (
+    DefaultUserSerializer,
+    DeliveryManSerializer,
+)
 
 
 class DefaultUserViewSet(ModelViewSet):
@@ -79,6 +87,23 @@ class DeliveryManViewSet(ModelViewSet):
         passport_obj = serializer.save()
 
         deliveryman.passport = passport_obj
+        deliveryman.save()
+        return Response(data=serializer.data, status=201)
+
+    @action(
+        methods=["post"],
+        detail=True,
+        permission_classes=[OwnerDeliveryManPermission],
+        serializer_class=TransportSerializer,
+    )
+    def add_transport(self, request, **kwargs):
+        deliveryman = self.get_object()
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid()
+        transport_obj = serializer.save()
+
+        deliveryman.transport = transport_obj
         deliveryman.save()
         return Response(data=serializer.data, status=201)
 

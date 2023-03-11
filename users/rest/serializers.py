@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
+from core_delivery.base.rest.serializers import TransportSerializer
 from core_delivery.users import models as us_mod
 
 
@@ -35,6 +36,7 @@ class DefaultUserSerializer(ModelSerializer):
 
 class DeliveryManSerializer(ModelSerializer):
     user = DefaultUserSerializer(read_only=True)
+    transport = TransportSerializer(read_only=True)
 
     class Meta:
         model = us_mod.DeliveryMan

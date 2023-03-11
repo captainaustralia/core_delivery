@@ -29,6 +29,10 @@ class DefaultUser(BaseUser):
     def is_deliveryman(self):
         return self.deliveryman
 
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
+
 
 class DeliveryMan(BaseModel):
     user = models.OneToOneField(
@@ -57,3 +61,7 @@ class DeliveryMan(BaseModel):
     verified = models.BooleanField(
         default=False, verbose_name="Доставщик верифицирован"
     )
+
+    class Meta:
+        verbose_name = "Доставщик"
+        verbose_name_plural = "Доставщики"

@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from core_delivery.orders.models import Order
@@ -17,3 +18,4 @@ class OrderViewSet(ModelViewSet):
         order = self.get_object()
         order.delivery_man = deliveryman
         order.save()
+        return Response(status=200, data=f"Order {order.uuid} has been processed")

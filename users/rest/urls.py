@@ -1,7 +1,6 @@
 from rest_framework.routers import SimpleRouter
 
-from core_delivery.users.rest.views import (DefaultUserViewSet,
-                                            DeliveryManViewSet)
+from core_delivery.users.rest.views import DefaultUserViewSet, DeliveryManViewSet
 
 router = SimpleRouter()
 router.register(basename="users", viewset=DefaultUserViewSet, prefix="users")
