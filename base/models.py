@@ -15,6 +15,17 @@ class PassportData(BaseModel):
     number = models.CharField(max_length=6, verbose_name="Номер паспорта")
     expired_date = models.DateField(verbose_name="Дата истечения паспорта")
     verify = models.BooleanField(default=False, verbose_name="Паспорт верифицирован")
+    checking_worker = models.ForeignKey(
+        "users.DefaultUser",
+        null=True,
+        on_delete=models.DO_NOTHING,
+        editable=False,
+        verbose_name="Ответственный сотрудник",
+    )
+
+    class Meta:
+        verbose_name = "Паспортные данные"
+        verbose_name_plural = "Паспортные данные"
 
 
 class Transport(BaseModel):
@@ -24,3 +35,7 @@ class Transport(BaseModel):
     registration_number = models.CharField(
         max_length=8, default="", verbose_name="Регистрационные номера"
     )
+
+    class Meta:
+        verbose_name = "Транспорт доставщика"
+        verbose_name_plural = "Транспорт доставщиков"
